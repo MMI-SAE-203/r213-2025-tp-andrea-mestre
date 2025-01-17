@@ -11,10 +11,10 @@ const { titre } = Astro.props;
     <title>{titre}</title>
   </head>
 
-  <body>
+  <body class="bg-orange-100" >
     <Header />
     <main>
-        <slot />
+      <slot />
     </main>
   </body>
 </html>
