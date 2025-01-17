@@ -1,16 +1,12 @@
 ---
-import Header from "../components/header.astro"
+import Base from "../layouts/Base.astro";
 ---
-
-<html lang="fr">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <title>Nos offres</title>
-    </head>
-    <body>
-        <Header />
-        <h1>Nos offres</h1>
-    </body>
-</html>
+<Base titre = "Nos Offres">
+    <h1>Offres</h1>
+    <p>Voici les offres d'emploi disponibles</p>
+    <ul>
+        <li>Offre 1</li>
+        <li>Offre 2</li>
+        <li>Offre 3</li>
+    </ul>
+</Base>
