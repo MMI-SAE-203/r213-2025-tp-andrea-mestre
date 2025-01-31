@@ -1,12 +1,26 @@
 ---
 import Base from "../layouts/Base.astro";
+import Cards from "../components/Cards.astro";
+import { getOffres } from "../backend.mjs";
+const offres = await getOffres();
 ---
-<Base titre = "Nos Offres">
-    <h1>Offres</h1>
-    <p>Voici les offres d'emploi disponibles</p>
-    <ul>
-        <li>Offre 1</li>
-        <li>Offre 2</li>
-        <li>Offre 3</li>
-    </ul>
-</Base>
+
+<Base titre="Page des offres">
+  <h1 class="text-center text-3xl p-6">Découvrir nos offres</h1></Base
+>
+<div x-data="{ShowFavorites : false}">
+  <button
+    @click="ShowFavorites = !ShowFavorites"
+    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+  >
+    <span x-show="!ShowFavorites">Afficher les favoris</span>
+    <span x-show="ShowFavorites">Afficher</span>
+  </button>
+  <div x-show="ShowFavorites">
+    {offres.map((offre) => offre.favori && <Cards {...offre} />)}
+  </div>
+
+  <div x-show="!ShowFavorites">
+    {offres.map((offre) => <Cards {...offre} />)}
+  </div>
+</div>
