@@ -14,7 +14,7 @@ const offres = await getOffres();
     class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
   >
     <span x-show="!ShowFavorites">Afficher les favoris</span>
-    <span x-show="ShowFavorites">Afficher</span>
+    <span x-show="ShowFavorites">Tout Afficher</span>
   </button>
   <div x-show="ShowFavorites">
     {offres.map((offre) => offre.favori && <Cards {...offre} />)}
