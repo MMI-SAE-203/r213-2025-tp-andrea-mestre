@@ -1,0 +1,11 @@
+---
+import { bySurface } from "../../../backend.mjs";
+import Base from "../../../layouts/Base.astro";
+const { surface } = Astro.params;
+const maisonFiltre = await bySurface(surface);
+if (!surface) {
+  return Astro.redirect("/offres");
+}
+---
+
+
