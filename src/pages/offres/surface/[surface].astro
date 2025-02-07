@@ -1,11 +1,21 @@
 ---
 import { bySurface } from "../../../backend.mjs";
 import Base from "../../../layouts/Base.astro";
+import Offres from "../offres.astro";
 const { surface } = Astro.params;
 const maisonFiltre = await bySurface(surface);
-if (!surface) {
+if (!maisonFiltre) {
   return Astro.redirect("/offres");
 }
 ---
 
 
+<Base>
+    <h1>Surface Supérieure à {surface} m2</h1>
+    {
+        maisonFiltre.map((maison)=>
+         <li>{maison.nom_maison}</li>
+         <li>{maison.superficie_maison}</li>
+    )};
+
+</Base>

@@ -3,9 +3,10 @@ import { getOffre } from "../../backend.mjs";
 import Base from "../../layouts/Base.astro";
 const { id } = Astro.params;
 const offre = await getOffre(id);
-if(!offre){
-   return Astro.redirect('/offres');}
-import {bySurface} from "../../backend.mjs"
+if (!offre) {
+  return Astro.redirect("/offres");
+}
+import { bySurface } from "../../backend.mjs";
 ---
 
 <Base titre={offre.nom_maison}>
