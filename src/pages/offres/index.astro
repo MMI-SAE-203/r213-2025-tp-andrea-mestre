@@ -1,7 +1,7 @@
 ---
-import Base from "../layouts/Base.astro";
-import Cards from "../components/Cards.astro";
-import { getOffres } from "../backend.mjs";
+import Base from "../../layouts/Base.astro";
+import Cards from "../../components/Cards.astro";
+import { getOffres } from "../../backend.mjs";
 const offres = await getOffres();
 ---
 
@@ -23,4 +23,16 @@ const offres = await getOffres();
   <div x-show="!ShowFavorites">
     {offres.map((offre) => <Cards {...offre} />)}
   </div>
+</div>
+
+<div x-data="{ShowGrille : false}">
+  <button
+    @click="ShowGrille = !ShowGrille"
+    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+  >
+    <span x-show="!ShowFavorites">Afficher en Liste</span>
+    <span x-show="ShowFavorites">Afficher en grille</span>
+  </button>
+ 
+
 </div>
