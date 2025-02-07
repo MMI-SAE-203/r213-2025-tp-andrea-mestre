@@ -11,13 +11,17 @@ const offres = await getOffres();
 <div x-data="{ShowFavorites : false}">
   <button
     @click="ShowFavorites = !ShowFavorites"
-    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12">
+    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+  >
     <span x-show="!ShowFavorites">Afficher les favoris</span>
     <span x-show="ShowFavorites">Tout Afficher</span>
   </button>
-  <a href={`/offres/surface/80`}>Surface supérieure à 80m2</a>
+  <a class = "bg-black text-white p-2 rounded-md px-4 py-2 ml-12" href={`/offres/surface/80`}>Surface supérieure à 80m2</a>
 
-
+  <a
+    class= "bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+    href={`/offres/prix/4700`}>Prix Inférieur à 4700</a
+  >
 
   <div x-show="ShowFavorites">
     {offres.map((offre) => offre.favori && <Cards {...offre} />)}
@@ -36,6 +40,4 @@ const offres = await getOffres();
     <span x-show="!ShowFavorites">Afficher en Liste</span>
     <span x-show="ShowFavorites">Afficher en grille</span>
   </button>
- 
-
 </div>

@@ -1,7 +1,6 @@
 ---
 import { bySurface } from "../../../backend.mjs";
 import Base from "../../../layouts/Base.astro";
-import Offres from "../offres.astro";
 const { surface } = Astro.params;
 const maisonFiltre = await bySurface(surface);
 if (!maisonFiltre) {
@@ -11,10 +10,10 @@ if (!maisonFiltre) {
 
 
 <Base>
-    <h1>Surface Supérieure à {surface} m2</h1>
+    <h1 class="text-4xl font-serif font-bold flex justify-center text-center ">Surface Supérieure à {surface} m2</h1>
     {
         maisonFiltre.map((maison)=>
-         <li>{maison.nom_maison}</li>
+         <li class="flex justify-center text-center">{maison.nom_maison}</li>
          <li>{maison.superficie_maison}</li>
     )};
 

@@ -1,0 +1,21 @@
+---
+import {byPrice} from "../../../backend.mjs";
+import Base from "../../../layouts/Base.astro";
+const { prix } = Astro.params;
+const priceMaison = await byPrice(prix);
+if (!priceMaison) {
+  return Astro.redirect("/offres");
+}
+---
+
+<Base>
+    <h1 class="bold ">Prix inférieur à {prix} $</h1>
+    <ul>
+    {
+        priceMaison.map((maison)=>
+         <li>{maison.nom_maison}</li>
+         <li>{maison.prix_maison}</li>
+    )};
+    </ul>
+
+</Base>
