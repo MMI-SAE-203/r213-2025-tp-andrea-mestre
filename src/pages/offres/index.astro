@@ -2,42 +2,78 @@
 import Base from "../../layouts/Base.astro";
 import Cards from "../../components/Cards.astro";
 import { getOffres } from "../../backend.mjs";
-const offres = await getOffres();
+import { filterByPrix } from "../../backend.mjs";
+let message = "";
+
+let offres = [];
+if (Astro.request.method === "POST") {
+  const data = await Astro.request.formData();
+  const minPrix = parseInt(data.get("minPrix") as string);
+  const maxPrix = parseInt(data.get("maxPrix") as string);
+
+  if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+    offres = await filterByPrix(minPrix, maxPrix);
+    console.log(offres);
+    
+    if (offres.length === 0) {
+      message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
+    } else {
+      message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
+    }
+  } else {
+    message = "Veuillez entrer des valeurs valides pour le prix.";
+    offres = await getOffres();
+  }
+} else {
+  offres = await getOffres();
+}
 ---
 
 <Base titre="Page des offres">
-  <h1 class="text-center text-3xl p-6">Découvrir nos offres</h1></Base
->
-<div x-data="{ShowFavorites : false}">
-  <button
-    @click="ShowFavorites = !ShowFavorites"
-    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-  >
-    <span x-show="!ShowFavorites">Afficher les favoris</span>
-    <span x-show="ShowFavorites">Tout Afficher</span>
-  </button>
-  <a class = "bg-black text-white p-2 rounded-md px-4 py-2 ml-12" href={`/offres/surface/80`}>Surface supérieure à 80m2</a>
+  <h1 class="text-center text-3xl p-6 font-serif">Découvrir nos offres</h1>
+  <p class="text-center text-green-500">{message}</p>
+  <form action="/offres" method="POST">
+    <input class="border-2 border-black " type="number" name="minPrix" placeholder="Prix minimum" />
+    <input type="number" name="maxPrix" placeholder="Prix maximum" />
+    <input type="submit" value="Filtrer par prix" />
+  </form>
 
-  <a
-    class= "bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-    href={`/offres/prix/4700`}>Prix Inférieur à 4700</a
-  >
+  <div x-data="{ShowFavorites : false}">
+    <button
+      @click="ShowFavorites = !ShowFavorites"
+      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+    >
+      <span x-show="!ShowFavorites">Afficher les favoris</span>
+      <span x-show="ShowFavorites">Tout Afficher</span>
+    </button>
+    <a
+      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+      href={`/offres/surface/80`}>Surface supérieure à 80m2</a
+    >
 
-  <div x-show="ShowFavorites">
-    {offres.map((offre) => offre.favori && <Cards {...offre} />)}
+    <a
+      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+      href={`/offres/prix/4700`}>Prix Inférieur à 4700</a
+    >
+
+    <div>
+      <div x-show="ShowFavorites">
+        {offres.map((offre) => offre.favori && <Cards {...offre} />)}
+      </div>
+
+      <div x-show="!ShowFavorites">
+        {offres.map((offre) => <Cards {...offre} />)}
+      </div>
+    </div>
   </div>
 
-  <div x-show="!ShowFavorites">
-    {offres.map((offre) => <Cards {...offre} />)}
+  <div x-data="{ShowGrille : false}">
+    <button
+      @click="ShowGrille = !ShowGrille"
+      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+    >
+      <span x-show="!ShowFavorites">Afficher en Liste</span>
+      <span x-show="ShowFavorites">Afficher en grille</span>
+    </button>
   </div>
-</div>
-
-<div x-data="{ShowGrille : false}">
-  <button
-    @click="ShowGrille = !ShowGrille"
-    class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-  >
-    <span x-show="!ShowFavorites">Afficher en Liste</span>
-    <span x-show="ShowFavorites">Afficher en grille</span>
-  </button>
-</div>
+</Base>
