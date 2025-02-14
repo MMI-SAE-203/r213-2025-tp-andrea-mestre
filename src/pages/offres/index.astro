@@ -14,7 +14,7 @@ if (Astro.request.method === "POST") {
   if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
     offres = await filterByPrix(minPrix, maxPrix);
     console.log(offres);
-    
+
     if (offres.length === 0) {
       message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
     } else {
@@ -30,15 +30,61 @@ if (Astro.request.method === "POST") {
 ---
 
 <Base titre="Page des offres">
-  <h1 class="text-center text-3xl p-6 font-serif">Découvrir nos offres</h1>
-  <p class="text-center text-green-500">{message}</p>
-  <form action="/offres" method="POST">
-    <input class="border-2 border-black " type="number" name="minPrix" placeholder="Prix minimum" />
-    <input type="number" name="maxPrix" placeholder="Prix maximum" />
-    <input type="submit" value="Filtrer par prix" />
-  </form>
+  <h1 class="text-center text-6xl p-6 font-serif mt-20">Découvrir nos offres</h1>
+  <p class="text-center text-gray-500 uppercase font-bold pb-4">{message}</p>
 
-  <div x-data="{ShowFavorites : false}">
+  <div class="flex justify-center">
+    <form action="/offres" method="POST">
+      <input
+        class="border-2 border-black px-4 py-2 rounded-md"
+        type="number"
+        name="minPrix"
+        placeholder="Prix minimum"
+      />
+      <input
+        class="border-2 border-black px-4 py-2 rounded-md"
+        type="number"
+        name="maxPrix"
+        placeholder="Prix maximum"
+      />
+      <input
+        class="border-2 border-black bg-black px-4 py-2 rounded-md text-white"
+        type="submit"
+        value="Filtrer par prix"
+      />
+    </form>
+  </div>
+
+  <div x-data="{ShowGrille : false}">
+    <button
+      @click="ShowGrille = !ShowGrille"
+      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+    >
+      <span x-show="!ShowGrille">Afficher en Liste</span>
+      <span x-show="ShowGrille">Afficher en grille</span>
+    </button>
+
+    <div class="pt-4">
+      <a
+        class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+        href="/offres/add">Ajouter une maison</a
+      >
+    </div>
+
+    <div class="pt-6">
+      <a
+        class="bg-black text-white p-2 rounded-md px-4  ml-12"
+        href={`/offres/surface/80`}>Surface supérieure à 80m2</a
+      >
+
+      <a
+        class="bg-black text-white p-2 rounded-md px-4 ml-3 "
+        href={`/offres/prix/4700`}>Prix Inférieur à 4700</a
+      >
+    </div>
+
+    <!-- 
+    <div x-data="{ShowFavorites : false}">
     <button
       @click="ShowFavorites = !ShowFavorites"
       class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
@@ -46,16 +92,6 @@ if (Astro.request.method === "POST") {
       <span x-show="!ShowFavorites">Afficher les favoris</span>
       <span x-show="ShowFavorites">Tout Afficher</span>
     </button>
-    <a
-      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-      href={`/offres/surface/80`}>Surface supérieure à 80m2</a
-    >
-
-    <a
-      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
-      href={`/offres/prix/4700`}>Prix Inférieur à 4700</a
-    >
-
     <div>
       <div x-show="ShowFavorites">
         {offres.map((offre) => offre.favori && <Cards {...offre} />)}
@@ -66,14 +102,12 @@ if (Astro.request.method === "POST") {
       </div>
     </div>
   </div>
+  -->
 
-  <div x-data="{ShowGrille : false}">
-    <button
-      @click="ShowGrille = !ShowGrille"
-      class="bg-black text-white p-2 rounded-md px-4 py-2 ml-12"
+    <div
+      x-bind:class="ShowGrille ? 'grid grid-cols-3 gap-4' : 'flex flex-col items-center justify-center'"
     >
-      <span x-show="!ShowFavorites">Afficher en Liste</span>
-      <span x-show="ShowFavorites">Afficher en grille</span>
-    </button>
+      {offres.map((offre) => <Cards {...offre} />)}
+    </div>
   </div>
 </Base>
