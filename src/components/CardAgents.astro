@@ -1,0 +1,12 @@
+---
+const { ...agent } = Astro.props;
+---
+
+<div class="flex flex-col items-center justify-center m-7 mx-auto">
+  <div
+    class="flex flex-col items-center justify-center p-7 border-2 border-black">
+    <h1 class="text-2xl font-bold font-serif pt-5">{agent.Nom} {agent.Prenom}</h1>
+  <p>{agent.email}</p>
+  <a href={`/agents/${agent.id}`}>En savoir plus</a>
+  </div>
+</div>

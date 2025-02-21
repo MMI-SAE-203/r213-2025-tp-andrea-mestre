@@ -1,0 +1,22 @@
+---
+import {getEventsAgent} from "../../backend.mjs";
+import Cards from "../../components/Cards.astro";
+import Base from "../../layouts/Base.astro";
+const { id } = Astro.params;
+const offres = await getEventsAgent(id);
+if (!offres) {
+  return Astro.redirect("/agents");
+}
+---
+
+<Base>
+  
+  {
+    offres.map((offre) => (
+      <li>
+        <Cards {...offre} />
+      </li>
+      <p>{offres.nom_maison}</p>
+    ))
+  }
+</Base>

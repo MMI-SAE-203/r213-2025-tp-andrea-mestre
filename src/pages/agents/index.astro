@@ -1,0 +1,19 @@
+---
+import { getAllAgents } from "../../backend.mjs";
+import Base from "../../layouts/Base.astro";
+import CardAgents from "../../components/CardAgents.astro";
+const agents = await getAllAgents();
+---
+
+<Base titre="Nos agents">
+  <h1 class="text-center text-6xl p-6 font-serif mt-20">Nos agents</h1>
+  <ul>
+    {
+      agents.map((per) => (
+        <li>
+            <CardAgents {...per} />
+        </li>
+      ))
+    }
+  </ul>
+</Base>
